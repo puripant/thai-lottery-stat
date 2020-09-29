@@ -5,10 +5,10 @@ const domain = d3.range(10);
 
 let x_scale = d3.scalePoint()
   .domain(domain)
-  .range([50, width-50]);
+  .range([0, width]);
 let y_scale = d3.scalePoint()
   .domain(domain)
-  .range([50, height-50]);
+  .range([0, height]);
 let w_scale = d3.scaleLinear()
   .range([0, width]);
 let h_scale = d3.scaleLinear()
@@ -182,7 +182,7 @@ d3.csv('data.csv').then(data => {
   value_max = d3.max(data.map(d => d.value));
   size_scale
     .domain([0, value_max])
-    .range([0, value_max*width*height/sums.all/2.5]);
+    .range([0, value_max*width*height/sums.all/2]);
 
   let cells = {}
   for (let d of data) {
