@@ -91,6 +91,7 @@ let draw = () => {
     )
       .attr('class', 'text')
       .style('fill', 'white')
+      .style('fill-opacity', d => d.value > 0 ? 1 : 0)
       .attr('dominant-baseline', 'middle')
       .attr('text-anchor', 'middle')
       .text(d => d.x+d.y)
