@@ -94,10 +94,59 @@ let draw = () => {
       .style('fill-opacity', d => d.value > 0 ? 1 : 0)
       .attr('dominant-baseline', 'middle')
       .attr('text-anchor', 'middle')
-      .text(d => d.x+d.y)
+      .text(d => {
+        if (projections.default) {
+          return d.x + d.y;
+        } else if (projections.x) {
+          return d.y;
+        } else {
+          return d.x;
+        }
+      })
     .transition(t)
       .attr('x', d => x(d) + w(d)/2)
       .attr('y', d => y(d) + h(d)/2)
+
+  // Labels
+  svg.selectAll('.label')
+      .data(rows)
+    .join(
+      enter => enter.append('text'),
+      update => update,
+      exit => exit.remove()
+    )
+      .attr('class', 'label')
+      .style('fill', 'black')
+      .style('fill-opacity', d => projections.default ? 0 : 1)
+      .attr('dominant-baseline', 'middle')
+      .attr('text-anchor', 'middle')
+      .text(d => {
+        if (projections.default) {
+          return 0;
+        } else if (projections.x) {
+          return d.x;
+        } else {
+          return d.y;
+        }
+      })
+      .attr('x', d => {
+        if (projections.default) {
+          return 0;
+        } else if (projections.x) {
+          return x(d) + w(d)/2;
+        } else {
+          return width + margin.right/2;
+        }
+      })
+      .attr('y', d => {
+        if (projections.default) {
+          return 0;
+        } else if (projections.x) {
+          return -margin.top/2;
+        } else {
+          return y(d) + h(d)/2;
+        }
+      })
 }
 
 const project_buttons = {
